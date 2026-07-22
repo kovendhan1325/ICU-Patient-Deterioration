@@ -1,0 +1,16 @@
+feature,threshold_low,threshold_high,outliers_detected,total_values,outlier_pct
+heartrate,30.0,220.0,464,1629497,0.028
+systemicsystolic,40.0,300.0,5747,1629497,0.353
+systemicdiastolic,20.0,200.0,15123,1629497,0.928
+systemicmean,25.0,250.0,32212,1629497,1.977
+respiration,4.0,60.0,19381,1629497,1.189
+temperature,30.0,45.0,17672,1629497,1.085
+lab_Creatinine,0.0,30.0,0,14582,0.0
+lab_Glucose,10.0,1500.0,0,14958,0.0
+lab_Lactate,0.0,30.0,0,2017,0.0
+lab_Sodium,100.0,180.0,4,15384,0.026
+lab_Potassium,1.0,10.0,0,16280,0.0
+lab_Hemoglobin,1.0,25.0,0,14364,0.0
+lab_WBC,0.0,100.0,9,12666,0.071
+lab_Platelets,0.0,1500.0,0,12677,0.0
+lab_Bilirubin,0.0,60.0,0,5402,0.0

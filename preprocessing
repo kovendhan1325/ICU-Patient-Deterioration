@@ -1,0 +1,372 @@
+I am building a Final Year Project titled:
+
+"Adaptive ICU Patient Deterioration Prediction using Temporal Deep Learning and Explainable AI"
+
+Dataset:
+eICU Collaborative Research Database v2.0.1
+
+Goal:
+Predict whether an ICU patient will deteriorate within the next 6, 12, and 24 hours using LSTM/GRU and Explainable AI (SHAP).
+
+I want you to perform COMPLETE DATA PREPROCESSING for this project.
+
+=========================================================
+Step 1 - Load Required Tables
+=========================================================
+
+Use ONLY these tables:
+
+patient.csv
+vitalPeriodic.csv
+lab.csv
+diagnosis.csv
+medication.csv
+respiratoryCharting.csv
+
+Ignore all other tables.
+
+=========================================================
+Step 2 - Select Required Columns
+=========================================================
+
+patient.csv
+
+patientunitstayid
+patienthealthsystemstayid
+gender
+age
+admissionheight
+admissionweight
+ethnicity
+hospitaldischargestatus
+unitdischargestatus
+
+------------------------------------------
+
+vitalPeriodic.csv
+
+patientunitstayid
+observationoffset
+heartrate
+systemicsystolic
+systemicdiastolic
+systemicmean
+respiration
+spo2
+temperature
+
+------------------------------------------
+
+lab.csv
+
+patientunitstayid
+labresultoffset
+labname
+labresult
+
+Only keep:
+
+Creatinine
+Glucose
+Lactate
+Sodium
+Potassium
+Hemoglobin
+WBC
+Platelets
+Bilirubin
+
+------------------------------------------
+
+diagnosis.csv
+
+patientunitstayid
+diagnosisstring
+
+------------------------------------------
+
+medication.csv
+
+patientunitstayid
+drugname
+drugstartoffset
+
+Keep only:
+
+Antibiotics
+Vasopressors
+Sedatives
+Insulin
+Anticoagulants
+Steroids
+
+------------------------------------------
+
+respiratoryCharting.csv
+
+patientunitstayid
+respchartoffset
+respchartvaluelabel
+respchartvalue
+
+Keep only:
+
+FiO₂
+PEEP
+Ventilator Mode
+
+=========================================================
+Step 3 - Data Cleaning
+=========================================================
+
+• Remove duplicate rows
+• Remove duplicate patients
+• Remove impossible values
+• Convert data types correctly
+• Handle inconsistent units
+• Remove unnecessary columns
+
+=========================================================
+Step 4 - Missing Value Handling
+=========================================================
+
+For numerical features:
+
+• Median Imputation
+• Forward Fill
+• Backward Fill
+• Time-based interpolation where appropriate
+
+For categorical features:
+
+• Most Frequent Value
+
+Generate a missing-value report before and after preprocessing.
+
+=========================================================
+Step 5 - Outlier Detection
+=========================================================
+
+Detect and remove impossible physiological values.
+
+Example:
+
+Heart Rate <30 or >220
+
+Temperature <30°C or >45°C
+
+SpO₂ >100
+
+Negative laboratory values
+
+Generate an outlier summary report.
+
+=========================================================
+Step 6 - Laboratory Processing
+=========================================================
+
+Convert laboratory records from long format into wide format.
+
+Example
+
+Patient
+
+Glucose
+
+Creatinine
+
+Lactate
+
+WBC
+
+Hemoglobin
+
+Platelets
+
+=========================================================
+Step 7 - Merge Tables
+=========================================================
+
+Merge all tables using
+
+patientunitstayid
+
+Maintain chronological order.
+
+=========================================================
+Step 8 - Time-Series Processing
+=========================================================
+
+Sort every patient using
+
+observationoffset
+
+Generate sequential records.
+
+Create observation windows:
+
+Past 6 Hours
+
+Past 12 Hours
+
+Past 24 Hours
+
+Generate corresponding prediction labels.
+
+=========================================================
+Step 9 - Feature Engineering
+=========================================================
+
+Create:
+
+BMI
+
+Pulse Pressure
+
+Mean Arterial Pressure
+
+Shock Index
+
+Heart Rate Trend
+
+Blood Pressure Trend
+
+SpO₂ Trend
+
+Respiratory Trend
+
+Laboratory Trend
+
+Moving Average
+
+Rolling Mean
+
+Rolling Standard Deviation
+
+Rate of Change
+
+=========================================================
+Step 10 - Encode Categorical Features
+=========================================================
+
+Gender
+
+Ethnicity
+
+Diagnosis
+
+Medication
+
+Use
+
+One-Hot Encoding
+
+or
+
+Label Encoding
+
+whichever is appropriate.
+
+=========================================================
+Step 11 - Feature Scaling
+=========================================================
+
+Normalize all numerical features using
+
+StandardScaler
+
+or
+
+MinMaxScaler
+
+Generate the scaler object.
+
+=========================================================
+Step 12 - Target Variable
+=========================================================
+
+Generate
+
+Target = 1
+
+If deterioration occurs within
+
+6 Hours
+
+12 Hours
+
+24 Hours
+
+Otherwise
+
+Target = 0
+
+Explain clearly how target labels are generated.
+
+=========================================================
+Step 13 - Sequence Generation
+=========================================================
+
+Generate sequences for LSTM.
+
+Example
+
+Sequence Length = 24
+
+Shape
+
+(Number of Patients,
+Sequence Length,
+Number of Features)
+
+Generate:
+
+X_train
+
+X_validation
+
+X_test
+
+Y_train
+
+Y_validation
+
+Y_test
+
+=========================================================
+Step 14 - Final Output
+=========================================================
+
+Generate
+
+1. Clean Dataset
+
+2. Feature List
+
+3. Final Dataset Shape
+
+4. Sequence Shape
+
+5. Feature Names
+
+6. Data Dictionary
+
+7. Complete preprocessing pipeline
+
+8. Python preprocessing code
+
+9. SQL queries (if required)
+
+10. Folder structure
+
+11. Save processed dataset as
+
+processed_icu_dataset.csv
+
+and
+
+processed_lstm_dataset.npy
+
+The preprocessing pipeline should be production-ready, optimized for LSTM/GRU training, and suitable for an IEEE research paper.
+
+For your project, don't stop at basic preprocessing. Ask the AI to save every preprocessing step (cleaning, feature engineering, scaling, sequence generation) as reusable Python scripts. This will make your project modular, easier to debug, and much stronger during your final-year viva and IEEE paper preparation.
