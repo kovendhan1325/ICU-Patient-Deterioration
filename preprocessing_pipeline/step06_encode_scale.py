@@ -1,4 +1,4 @@
-﻿"""
+"""
 ==============================================================================
 STEP 06 - Encode Categorical Features & Scale Numerical Features
 ==============================================================================
@@ -32,19 +32,16 @@ def encode_categorical(df):
 
     # Gender
     if "gender" in df.columns:
-        gender_dummies = pd.get_dummies(df["gender"], prefix="gender", dtype=int)
+        gender_dummies = pd.get_dummies(df["gender"], prefix="gender", drop_first=True, dtype=int)
         df = pd.concat([df, gender_dummies], axis=1)
         df.drop(columns=["gender"], inplace=True)
         encoded_count += len(gender_dummies.columns)
         print(f"    -> Gender: {gender_dummies.columns.tolist()}")
 
-    # Ethnicity
+    # Ethnicity (Dropped entirely to reduce features and bias)
     if "ethnicity" in df.columns:
-        ethnicity_dummies = pd.get_dummies(df["ethnicity"], prefix="ethnicity", dtype=int)
-        df = pd.concat([df, ethnicity_dummies], axis=1)
         df.drop(columns=["ethnicity"], inplace=True)
-        encoded_count += len(ethnicity_dummies.columns)
-        print(f"    -> Ethnicity: {len(ethnicity_dummies.columns)} categories")
+        print(f"    -> Ethnicity: Dropped to reduce features.")
 
     print(f"    -> {encoded_count} new binary columns from encoding")
     return df

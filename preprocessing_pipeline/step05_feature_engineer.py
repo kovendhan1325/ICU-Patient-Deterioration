@@ -1,4 +1,4 @@
-﻿"""
+"""
 ==============================================================================
 STEP 05 - Feature Engineering
 ==============================================================================
@@ -131,7 +131,12 @@ def create_respiratory_features(resp_df):
             rename[col] = f"resp_{col.replace(' ', '_').lower()}"
     resp_wide = resp_wide.rename(columns=rename)
 
-    print(f"    -> Respiratory features: {resp_wide.shape[0]:,} rows x {len(rename)} features")
+    # Filter to keep only specific features for the 37-feature set
+    keep_cols = ["patientunitstayid", "hour", "resp_fio2", "resp_peep"]
+    existing_keep_cols = [c for c in keep_cols if c in resp_wide.columns]
+    resp_wide = resp_wide[existing_keep_cols]
+
+    print(f"    -> Respiratory features: {resp_wide.shape[0]:,} rows x {len(existing_keep_cols)-2} features")
     return resp_wide
 
 
@@ -148,6 +153,9 @@ def add_derived_features(merged_df):
         merged_df.loc[merged_df["bmi"] < 10, "bmi"] = np.nan
         merged_df["bmi"] = merged_df["bmi"].fillna(merged_df["bmi"].median())
         count += 1
+        
+        # Drop raw height and weight to reduce feature space
+        merged_df.drop(columns=["admissionheight", "admissionweight"], inplace=True)
 
     # Pulse Pressure = systolic - diastolic
     if "systemicsystolic" in merged_df.columns and "systemicdiastolic" in merged_df.columns:
@@ -282,8 +290,8 @@ def run_step05(data=None):
     # 7. Derived features
     merged = add_derived_features(merged)
 
-    # 8. Rolling features
-    merged = add_rolling_features(merged)
+    # 8. Rolling features (Removed to reduce feature count for LSTM)
+    # merged = add_rolling_features(merged)
 
     print(f"\n    -> Final merged shape: {merged.shape[0]:,} rows x {merged.shape[1]} columns")
 
