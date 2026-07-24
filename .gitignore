@@ -18,3 +18,8 @@ __pycache__/
 # OS files
 Thumbs.db
 .DS_Store
+
+# Agent files
+implementation_plan.md
+task.md
+walkthrough.md
