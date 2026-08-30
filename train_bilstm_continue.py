@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+import sys, io
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 """
 ================================================================================
 LSTM Training Script — Continues from where Notebook_6 Cell 8 left off.
@@ -22,7 +25,7 @@ matplotlib.use('Agg')           # non-interactive backend — no display needed
 import matplotlib.pyplot as plt
 warnings.filterwarnings('ignore')
 
-# ─── Paths ────────────────────────────────────────────────────────────────────
+# --- Paths --------------------------------------------------------------------
 BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR    = os.path.join(BASE_DIR, 'preprocessing_pipeline', 'output')
 REPORTS_DIR = os.path.join(BASE_DIR, 'preprocessing_pipeline', 'reports')
@@ -30,7 +33,7 @@ CSV_PATH    = os.path.join(DATA_DIR, 'processed_icu_dataset.csv')
 MODEL_PATH  = os.path.join(BASE_DIR, 'best_bilstm_model.pth')
 os.makedirs(REPORTS_DIR, exist_ok=True)
 
-# ─── Hyperparameters ──────────────────────────────────────────────────────────
+# --- Hyperparameters ----------------------------------------------------------
 SEQUENCE_LENGTH = 24
 RANDOM_SEED     = 42
 HIDDEN_SIZE     = 128
@@ -110,7 +113,7 @@ n = len(patient_ids)
 train_ids = patient_ids[:int(n * 0.70)]
 val_ids   = patient_ids[int(n * 0.70):int(n * 0.85)]
 test_ids  = patient_ids[int(n * 0.85):]
-print(f'  Patients → Train:{len(train_ids)} | Val:{len(val_ids)} | Test:{len(test_ids)}')
+print(f'  Patients -> Train:{len(train_ids)} | Val:{len(val_ids)} | Test:{len(test_ids)}')
 
 def create_sequences(df, pid_list, feat_cols, tgt_col, seq_len=24):
     Xs, ys = [], []
@@ -228,7 +231,7 @@ epochs_no_improve = 0
 history           = {'train_loss': [], 'val_loss': [], 'val_auc': []}
 
 for epoch in range(EPOCHS):
-    # ── Train ──────────────────────────────────────────────────────────────────
+    # -- Train ------------------------------------------------------------------
     model.train()
     train_loss = 0.0
     for Xb, yb in train_loader:
@@ -242,7 +245,7 @@ for epoch in range(EPOCHS):
         train_loss += loss.item()
     avg_train = train_loss / len(train_loader)
 
-    # ── Validate ───────────────────────────────────────────────────────────────
+    # -- Validate ---------------------------------------------------------------
     model.eval()
     val_loss, all_probs, all_tgts = 0.0, [], []
     with torch.no_grad():
@@ -263,7 +266,7 @@ for epoch in range(EPOCHS):
     prev_lr = optimizer.param_groups[0]['lr']
     scheduler.step(val_auc)
     curr_lr = optimizer.param_groups[0]['lr']
-    lr_tag  = f' | LR→{curr_lr:.5f}' if curr_lr < prev_lr else ''
+    lr_tag  = f' | LR->{curr_lr:.5f}' if curr_lr < prev_lr else ''
 
     print(f'Epoch {epoch+1:3d}/{EPOCHS} | '
           f'Train: {avg_train:.4f} | Val: {avg_val:.4f} | AUC: {val_auc:.4f}{lr_tag}')
@@ -272,7 +275,7 @@ for epoch in range(EPOCHS):
         best_val_auc = val_auc
         epochs_no_improve = 0
         torch.save(model.state_dict(), MODEL_PATH)
-        print(f'  ✓ Best model saved (AUC={best_val_auc:.4f})')
+        print(f'  [OK] Best model saved (AUC={best_val_auc:.4f})')
     else:
         epochs_no_improve += 1
         if epochs_no_improve >= PATIENCE:
@@ -320,7 +323,7 @@ print(f'\n{classification_report(test_tgts, binary_preds, target_names=["Stable"
 print('[6/6] Saving plots...')
 plt.style.use('dark_background')
 
-# ── Training curves ──────────────────────────────────────────────────────────
+# -- Training curves ----------------------------------------------------------
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 fig.patch.set_facecolor('#1a1a2e')
 for ax in axes:
@@ -348,7 +351,7 @@ plt.savefig(curve_path, dpi=150, bbox_inches='tight', facecolor='#1a1a2e')
 plt.close()
 print(f'  Saved: {curve_path}')
 
-# ── ROC curve ────────────────────────────────────────────────────────────────
+# -- ROC curve ----------------------------------------------------------------
 fpr, tpr, _ = roc_curve(test_tgts, test_probs)
 fig, ax = plt.subplots(figsize=(7, 6))
 fig.patch.set_facecolor('#1a1a2e'); ax.set_facecolor('#16213e')
@@ -365,10 +368,10 @@ plt.savefig(roc_path, dpi=150, bbox_inches='tight', facecolor='#1a1a2e')
 plt.close()
 print(f'  Saved: {roc_path}')
 
-# ── Summary ──────────────────────────────────────────────────────────────────
-print(f'\n{"█"*55}')
+# -- Summary ------------------------------------------------------------------
+print(f'\n{"#"*55}')
 print(f'  TRAINING COMPLETE')
-print(f'{"█"*55}')
+print(f'{"#"*55}')
 print(f'  Baseline LSTM (NB5) Test AUC : 0.6324')
 print(f'  BiLSTM+Attention Test AUC    : {test_auc:.4f}')
 print(f'  Improvement                  : +{test_auc - 0.6324:.4f}')
