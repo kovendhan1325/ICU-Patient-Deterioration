@@ -173,7 +173,7 @@ for epoch in range(EPOCHS):
             break
 
 print("Training Complete!")
-from sklearn.metrics import average_precision_score, classification_report
+from sklearn.metrics import classification_report
 
 # Load best model weights
 model.load_state_dict(torch.load('best_lstm_model.pth'))
@@ -192,11 +192,10 @@ with torch.no_grad():
         all_test_targets.extend(y_batch.cpu().numpy())
 
 test_auc = roc_auc_score(all_test_targets, all_test_preds)
-test_pr_auc = average_precision_score(all_test_targets, all_test_preds)
+test_pr_auc = (all_test_targets, all_test_preds)
 
 print(f"\n--- FINAL TEST METRICS ---")
 print(f"Test ROC-AUC: {test_auc:.4f}")
-print(f"Test PR-AUC: {test_pr_auc:.4f}")
 
 # Threshold at 0.5 (You can adjust this based on PR curve)
 binary_preds = [1 if p >= 0.5 else 0 for p in all_test_preds]

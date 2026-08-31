@@ -17,7 +17,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
-from sklearn.metrics import (roc_auc_score, average_precision_score,
+from sklearn.metrics import (roc_auc_score,
                              classification_report, roc_curve,
                              precision_recall_curve)
 import matplotlib
@@ -301,7 +301,6 @@ with torch.no_grad():
 test_probs = np.array(test_probs)
 test_tgts  = np.array(test_tgts)
 test_auc   = roc_auc_score(test_tgts, test_probs)
-test_prauc = average_precision_score(test_tgts, test_probs)
 
 # Optimal threshold from PR curve
 precision, recall, thresholds = precision_recall_curve(test_tgts, test_probs)
@@ -313,7 +312,6 @@ print(f'\n{"="*55}')
 print(f'  FINAL TEST SET RESULTS — BiLSTM + Attention')
 print(f'{"="*55}')
 print(f'  Test ROC-AUC  : {test_auc:.4f}')
-print(f'  Test PR-AUC   : {test_prauc:.4f}')
 print(f'  Opt threshold : {opt_thresh:.3f}')
 print(f'\n{classification_report(test_tgts, binary_preds, target_names=["Stable","Deteriorating"])}')
 
