@@ -207,11 +207,11 @@ def add_rolling_features(merged_df):
         merged_df[f"{col}_rolling_std"] = merged_df[f"{col}_rolling_std"].fillna(0)
         new_features += 1
 
-        # Rate of change (difference from previous hour)
-        merged_df[f"{col}_rate_of_change"] = grouped.transform(
-            lambda x: x.diff()
+        # 6-hour trend (difference from 6 hours ago)
+        merged_df[f"{col}_trend_6h"] = grouped.transform(
+            lambda x: x.diff(periods=6)
         )
-        merged_df[f"{col}_rate_of_change"] = merged_df[f"{col}_rate_of_change"].fillna(0)
+        merged_df[f"{col}_trend_6h"] = merged_df[f"{col}_trend_6h"].fillna(0)
         new_features += 1
 
     print(f"    -> {new_features} rolling/trend features created")
@@ -290,8 +290,8 @@ def run_step05(data=None):
     # 7. Derived features
     merged = add_derived_features(merged)
 
-    # 8. Rolling features (Removed to reduce feature count for LSTM)
-    # merged = add_rolling_features(merged)
+    # 8. Rolling features (Re-enabled with 6-hour trends)
+    merged = add_rolling_features(merged)
 
     print(f"\n    -> Final merged shape: {merged.shape[0]:,} rows x {merged.shape[1]} columns")
 

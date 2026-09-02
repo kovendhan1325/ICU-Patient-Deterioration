@@ -12,12 +12,12 @@ eICU Collaborative Research Database v2.0.1 (Demo)
 
 | Split | Sequences | Shape |
 |---|---|---|
-| Train | 64,121 | (64121, 24, 37) |
-| Val | 15,389 | (15389, 24, 37) |
-| Test | 13,667 | (13667, 24, 37) |
+| Train | 64,121 | (64121, 24, 55) |
+| Val | 15,389 | (15389, 24, 55) |
+| Test | 13,667 | (13667, 24, 55) |
 
 - **Sequence Length**: 24 hours
-- **Number of Features**: 37
+- **Number of Features**: 55
 - **Prediction Horizons**: [6, 12, 24]
 - **Patients (Train/Val/Test)**: 1654/354/356
 
@@ -63,7 +63,25 @@ eICU Collaborative Research Database v2.0.1 (Demo)
 | 34 | `pulse_pressure` | Continuous | Systolic - Diastolic blood pressure |
 | 35 | `map_calculated` | Continuous | Calculated Mean Arterial Pressure |
 | 36 | `shock_index` | Continuous | Heart Rate / Systolic Blood Pressure |
-| 37 | `gender_Male` | Binary | One-hot encoded gender: Male |
+| 37 | `heartrate_rolling_mean` | Continuous | 6-hour rolling mean of heartrate |
+| 38 | `heartrate_rolling_std` | Continuous | 6-hour rolling standard deviation of heartrate |
+| 39 | `heartrate_trend_6h` | Continuous | Feature: heartrate_trend_6h |
+| 40 | `systemicsystolic_rolling_mean` | Continuous | 6-hour rolling mean of systemicsystolic |
+| 41 | `systemicsystolic_rolling_std` | Continuous | 6-hour rolling standard deviation of systemicsystolic |
+| 42 | `systemicsystolic_trend_6h` | Continuous | Feature: systemicsystolic_trend_6h |
+| 43 | `systemicdiastolic_rolling_mean` | Continuous | 6-hour rolling mean of systemicdiastolic |
+| 44 | `systemicdiastolic_rolling_std` | Continuous | 6-hour rolling standard deviation of systemicdiastolic |
+| 45 | `systemicdiastolic_trend_6h` | Continuous | Feature: systemicdiastolic_trend_6h |
+| 46 | `systemicmean_rolling_mean` | Continuous | 6-hour rolling mean of systemicmean |
+| 47 | `systemicmean_rolling_std` | Continuous | 6-hour rolling standard deviation of systemicmean |
+| 48 | `systemicmean_trend_6h` | Continuous | Feature: systemicmean_trend_6h |
+| 49 | `respiration_rolling_mean` | Continuous | 6-hour rolling mean of respiration |
+| 50 | `respiration_rolling_std` | Continuous | 6-hour rolling standard deviation of respiration |
+| 51 | `respiration_trend_6h` | Continuous | Feature: respiration_trend_6h |
+| 52 | `temperature_rolling_mean` | Continuous | 6-hour rolling mean of temperature |
+| 53 | `temperature_rolling_std` | Continuous | 6-hour rolling standard deviation of temperature |
+| 54 | `temperature_trend_6h` | Continuous | Feature: temperature_trend_6h |
+| 55 | `gender_Male` | Binary | One-hot encoded gender: Male |
 
 ---
 

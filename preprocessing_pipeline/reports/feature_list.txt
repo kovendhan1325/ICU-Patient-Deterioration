@@ -1,6 +1,6 @@
-Total Features: 37
+Total Features: 55
 Sequence Length: 24
-LSTM Input Shape: (N, 24, 37)
+LSTM Input Shape: (N, 24, 55)
 
   1. heartrate
   2. systemicsystolic
@@ -38,4 +38,22 @@ LSTM Input Shape: (N, 24, 37)
  34. pulse_pressure
  35. map_calculated
  36. shock_index
- 37. gender_Male
+ 37. heartrate_rolling_mean
+ 38. heartrate_rolling_std
+ 39. heartrate_trend_6h
+ 40. systemicsystolic_rolling_mean
+ 41. systemicsystolic_rolling_std
+ 42. systemicsystolic_trend_6h
+ 43. systemicdiastolic_rolling_mean
+ 44. systemicdiastolic_rolling_std
+ 45. systemicdiastolic_trend_6h
+ 46. systemicmean_rolling_mean
+ 47. systemicmean_rolling_std
+ 48. systemicmean_trend_6h
+ 49. respiration_rolling_mean
+ 50. respiration_rolling_std
+ 51. respiration_trend_6h
+ 52. temperature_rolling_mean
+ 53. temperature_rolling_std
+ 54. temperature_trend_6h
+ 55. gender_Male

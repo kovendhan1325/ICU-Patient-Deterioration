@@ -1,4 +1,4 @@
-﻿"""
+"""
 ==============================================================================
 STEP 07 - Target Variable Generation & LSTM Sequence Creation
 ==============================================================================
@@ -165,9 +165,9 @@ def run_step07(merged_df=None):
     # 4. Split patients
     train_ids, val_ids, test_ids = split_patients(merged_df)
 
-    # 5. Generate sequences for the primary target (24h)
-    # We'll use target_24h as the primary, but save all target arrays
-    primary_target = "target_24h"
+    # 5. Generate sequences for the primary target (6h)
+    # We'll use target_6h as the primary, but save all target arrays
+    primary_target = "target_6h"
 
     print(f"\n  Generating LSTM sequences (seq_len={SEQUENCE_LENGTH}) ...")
 

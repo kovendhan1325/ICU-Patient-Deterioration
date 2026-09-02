@@ -255,7 +255,7 @@ def main():
     print(f"\n  LSTM Input Shape:  {info['X_train_shape']}")
     print(f"  Features:          {len(info['feature_cols'])}")
     print(f"  Sequence Length:   {SEQUENCE_LENGTH}")
-    print(f"  Prediction Target: target_24h")
+    print(f"  Prediction Target: target_6h")
     print(f"\n  * Ready for LSTM/GRU training!")
 
 
