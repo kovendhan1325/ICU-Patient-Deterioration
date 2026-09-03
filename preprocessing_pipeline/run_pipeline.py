@@ -2,7 +2,7 @@
 ==============================================================================
 RUN_PIPELINE.PY - Master Orchestrator
 ==============================================================================
-Runs all 7 preprocessing steps in sequence and generates final reports.
+Runs all 8 preprocessing steps in sequence and generates final reports.
 
 Usage:
     python run_pipeline.py
@@ -10,14 +10,21 @@ Usage:
 Output:
     - output/processed_icu_dataset.csv
     - output/processed_lstm_dataset.npy
-    - output/X_train.npy, X_val.npy, X_test.npy
-    - output/y_train.npy, y_val.npy, y_test.npy
+    - output/X_train.npy, X_val.npy, X_test.npy        (raw, step 07)
+    - output/y_train.npy, y_val.npy, y_test.npy        (raw, step 07)
+    - output/X_train_balanced.npy                       (balanced, step 08)
+    - output/y_train_balanced.npy                       (balanced, step 08)
+    - output/X_val_selected.npy                         (feature-selected, step 08)
+    - output/X_test_selected.npy                        (feature-selected, step 08)
+    - output/feature_mask.npy                           (boolean feature mask)
+    - output/feature_indices.npy                        (selected feature indices)
     - output/scaler.pkl
     - reports/missing_value_report.csv
     - reports/outlier_summary.csv
     - reports/feature_list.txt
     - reports/data_dictionary.md
-==============================================================================
+    - reports/balancing_report.txt                      (class dist. before/after)
+=============================================================================
 """
 
 import time
@@ -36,6 +43,7 @@ from step04_outlier_removal import run_step04
 from step05_feature_engineer import run_step05
 from step06_encode_scale import run_step06
 from step07_target_sequence import run_step07
+from step08_balance import run_step08
 
 
 def generate_data_dictionary(info):
@@ -226,6 +234,11 @@ def main():
     info = run_step07(merged)
     print(f"  * Step 07 took {time.time() - t:.1f}s")
 
+    # Step 8: Feature Selection & Class Balancing
+    t = time.time()
+    balance_info = run_step08()
+    print(f"  * Step 08 took {time.time() - t:.1f}s")
+
     # Generate Data Dictionary
     print("\n" + "=" * 70)
     print("GENERATING REPORTS")
@@ -252,11 +265,19 @@ def main():
     for f_name in os.listdir(REPORTS_DIR):
         print(f"    {f_name}")
 
-    print(f"\n  LSTM Input Shape:  {info['X_train_shape']}")
-    print(f"  Features:          {len(info['feature_cols'])}")
-    print(f"  Sequence Length:   {SEQUENCE_LENGTH}")
-    print(f"  Prediction Target: target_6h")
-    print(f"\n  * Ready for LSTM/GRU training!")
+    print(f"\n  LSTM Input Shape (raw):          {info['X_train_shape']}")
+    print(f"  LSTM Input Shape (balanced):     {balance_info['X_train_balanced'].shape}")
+    print(f"  Features original:               {len(info['feature_cols'])}")
+    print(f"  Features selected:               {balance_info['n_features_selected']}")
+    print(f"  Sequence Length:                 {SEQUENCE_LENGTH}")
+    print(f"  Prediction Target:               target_6h")
+    print(f"\n  Training files for model:")
+    print(f"    X_train_balanced.npy  ->  {balance_info['X_train_balanced'].shape}")
+    print(f"    y_train_balanced.npy  ->  {balance_info['y_train_balanced'].shape}")
+    print(f"    X_val_selected.npy    ->  {balance_info['X_val_selected'].shape}")
+    print(f"    X_test_selected.npy   ->  {balance_info['X_test_selected'].shape}")
+    print(f"\n  * Balanced dataset ready for LSTM/GRU training!")
+    print(f"  * See reports/balancing_report.txt for class distribution details.")
 
 
 if __name__ == "__main__":
