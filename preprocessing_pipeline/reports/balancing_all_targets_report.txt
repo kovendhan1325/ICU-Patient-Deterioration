@@ -1,0 +1,21 @@
+STEP 08b - Dataset Balancing Report
+Targets: 6h, 12h, 24h  |  Method: RandomOverSampler
+============================================================
+
+Target: 6h
+  Before  : pos=482  neg=63,639
+  After   : pos=21,000  neg=63,639
+  X shape : (84639, 24, 30)
+  y shape : (84639,)
+
+Target: 12h
+  Before  : pos=965  neg=63,156
+  After   : pos=20,841  neg=63,156
+  X shape : (83997, 24, 30)
+  y shape : (83997,)
+
+Target: 24h
+  Before  : pos=1,872  neg=62,249
+  After   : pos=20,542  neg=62,249
+  X shape : (82791, 24, 30)
+  y shape : (82791,)
