@@ -1,0 +1,31 @@
+======================================================================
+STEP 08 - BALANCING & FEATURE SELECTION REPORT
+======================================================================
+
+CLASS DISTRIBUTION (Training Set)
+----------------------------------------
+  Before  :  positives = 482  / 64,121  (0.75%)
+  After   :  positives = 31,819  / 95,458  (33.33%)
+
+FEATURE SELECTION
+----------------------------------------
+  Original features  : 55
+  Selected features  : 30
+  Removed features   : 25
+  Selected indices   : [2, 3, 6, 7, 8, 9, 10, 11, 13, 14, 15, 17, 20, 21, 23, 26, 28, 29, 30, 32, 33, 34, 39, 40, 42, 43, 45, 46, 52, 54]
+
+OUTPUT SHAPES
+----------------------------------------
+  X_train_balanced               : (95458, 24, 30)
+  y_train_balanced               : (95458,)
+  X_val_selected                 : (15389, 24, 30)
+  y_val (unchanged)              : (15389,)
+  X_test_selected                : (13667, 24, 30)
+  y_test (unchanged)             : (13667,)
+  feature_mask (bool)            : (55,)
+  feature_indices (int)          : (30,)
+
+======================================================================
+NOTE: Val and Test sets were NOT resampled (no leakage).
+      Feature selection mask applied to all three splits.
+======================================================================

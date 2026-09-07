@@ -1,0 +1,147 @@
+======================================================================
+LSTM METRICS REPORT
+ICU Patient Deterioration Prediction -- eICU Demo Dataset
+======================================================================
+
+  Model         : Bidirectional LSTM + LSTM
+  Target        : target_6h (deterioration within 6 hours)
+  Training time : 14.0 minutes
+  Epochs run    : 12
+  Best Val AUC  : 0.6705
+
+
+======================================================================
+MODEL ARCHITECTURE
+======================================================================
+
+  Input shape     : (batch, 24, 30)  [24 timesteps, 30 features]
+  BiLSTM layer 1  : 128 units x2 (bidirectional)
+  Dropout 1       : 0.4
+  LSTM layer 2    : 64 units
+  Dropout 2       : 0.3
+  Dense layer     : 32 units + ReLU
+  Dropout 3       : 0.2
+  Output          : 1 unit (Sigmoid)
+  Total params    : 249,025
+  Trainable       : 249,025
+
+
+======================================================================
+HYPERPARAMETERS
+======================================================================
+
+  Optimizer       : Adam
+  Learning rate   : 0.001
+  Weight decay    : 0.0001
+  Batch size      : 512
+  Max epochs      : 80
+  Early stopping  : patience=10 on Val ROC-AUC
+  LR scheduler    : ReduceLROnPlateau (factor=0.5, patience=4)
+  Loss            : BCEWithLogitsLoss (pos_weight=n_neg/n_pos)
+  Decision thresh : 0.5
+
+
+======================================================================
+TRAINING LOG (Per Epoch)
+======================================================================
+
+  Epoch  Train Loss  Val Loss   Val AUC         LR
+  --------------------------------------------------
+      1      0.2938    0.2544    0.6344   1.00e-03
+      2      0.0911    0.2960    0.6705   1.00e-03
+      3      0.0718    0.3144    0.6675   1.00e-03
+      4      0.0646    0.2839    0.6468   1.00e-03
+      5      0.0541    0.2698    0.6123   1.00e-03
+      6      0.0509    0.2889    0.6649   1.00e-03
+      7      0.0494    0.2591    0.6153   5.00e-04
+      8      0.0365    0.2506    0.6299   5.00e-04
+      9      0.0335    0.2506    0.6312   5.00e-04
+     10      0.0356    0.2645    0.6082   5.00e-04
+     11      0.0305    0.3164    0.6136   5.00e-04
+     12      0.0328    0.2629    0.6422   2.50e-04
+
+
+======================================================================
+VALIDATION SET METRICS
+======================================================================
+
+  ROC-AUC               : 0.6705  [Below 0.85]
+  PR-AUC                : 0.0267
+  Accuracy              : 0.9361
+  Precision (PPV)       : 0.0349
+  Recall (Sensitivity)  : 0.2462
+  F1-Score              : 0.0611
+  Specificity           : 0.9419
+  NPV                   : 0.9932
+
+  Optimal Threshold (Youden's J) : 0.0005
+    Recall    @ optimal thresh   : 0.5385
+    Precision @ optimal thresh   : 0.0179
+    F1        @ optimal thresh   : 0.0347
+
+  Confusion Matrix (threshold=0.5):
+                       Pred Normal  Pred Deterioration
+    Actual Normal            14,373                886
+    Actual Deterioration         98                 32
+
+  Classification Report:
+                   precision    recall  f1-score   support
+    
+           Normal       0.99      0.94      0.97     15259
+    Deterioration       0.03      0.25      0.06       130
+    
+         accuracy                           0.94     15389
+        macro avg       0.51      0.59      0.51     15389
+     weighted avg       0.99      0.94      0.96     15389
+
+
+======================================================================
+TEST SET METRICS  (Final Evaluation)
+======================================================================
+
+  ROC-AUC               : 0.6276  [Below 0.85]
+  PR-AUC                : 0.0188
+  Accuracy              : 0.9407
+  Precision (PPV)       : 0.0231
+  Recall (Sensitivity)  : 0.1067
+  F1-Score              : 0.0380
+  Specificity           : 0.9499
+  NPV                   : 0.9897
+
+  Optimal Threshold (Youden's J) : 0.0001
+    Recall    @ optimal thresh   : 0.7267
+    Precision @ optimal thresh   : 0.0160
+    F1        @ optimal thresh   : 0.0313
+
+  Confusion Matrix (threshold=0.5):
+                       Pred Normal  Pred Deterioration
+    Actual Normal            12,840                677
+    Actual Deterioration        134                 16
+
+  Classification Report:
+                   precision    recall  f1-score   support
+    
+           Normal       0.99      0.95      0.97     13517
+    Deterioration       0.02      0.11      0.04       150
+    
+         accuracy                           0.94     13667
+        macro avg       0.51      0.53      0.50     13667
+     weighted avg       0.98      0.94      0.96     13667
+
+
+======================================================================
+SUMMARY
+======================================================================
+
+  ROC-AUC Target (>= 0.85) : [NO]
+  Test ROC-AUC             : 0.6276
+  Test PR-AUC              : 0.0188
+  Test F1-Score            : 0.0380
+  Test Recall              : 0.1067
+  Test Specificity         : 0.9499
+
+  Balanced training:  X_train_balanced (95,458 sequences)
+  Feature selected:   30 out of 55 original features
+  Balancing method:   SMOTETomek (minority -> 33.3%)
+
+======================================================================
