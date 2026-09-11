@@ -1,8 +1,5 @@
-# Intermediate pickle files
-preprocessing_pipeline/intermediate/
-
-# Large output files (exceed GitHub 100MB limit)
-preprocessing_pipeline/output/
+# Large data files
+eicu_hourly_labeled_6h_12h_24h.csv
 
 # Compressed source data
 required files/
