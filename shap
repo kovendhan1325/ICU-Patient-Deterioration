@@ -1,0 +1,29 @@
+What SHAP Does — In Simple Words
+Think of your model like a doctor making a prediction: "This patient will deteriorate in the next 6 hours."
+
+But right now, your model is like a black box — it gives a prediction but doesn't explain why. Your professor/evaluator will ask: "Why did the model say this patient is at risk?"
+
+SHAP answers that question.
+
+🔍 What SHAP Tells You
+For each patient, SHAP breaks down the prediction and shows which features pushed the risk up or down:
+
+Feature	Effect
+Heart Rate = 145 (high)	⬆️ Pushed risk UP by +0.15
+SpO2 = 88% (low)	⬆️ Pushed risk UP by +0.12
+Blood Pressure = 120 (normal)	⬇️ Pushed risk DOWN by -0.05
+On Vasopressors = Yes	⬆️ Pushed risk UP by +0.10
+So now you can say: "The model predicted deterioration because the patient had a high heart rate, low oxygen, and was on vasopressors."
+
+📊 The Two Main Plots You'll Get
+SHAP Summary Plot (Global View)
+
+Shows which features are most important overall across ALL patients
+Example insight: "Heart rate and SpO2 are the top 2 most important features for predicting deterioration"
+This goes in your report to prove your model learned meaningful medical patterns
+SHAP Force Plot (Individual Patient View)
+
+Shows one specific patient's prediction breakdown
+Red arrows = features pushing toward deterioration
+Blue arrows = features pushing toward stable
+Great for your presentation/demo
