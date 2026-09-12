@@ -56,7 +56,7 @@
     // ── Load Data ──
     async function loadPatientData() {
         try {
-            const res = await fetch('patients_data.json');
+            const res = await fetch('patients_data.json?v=' + new Date().getTime());
             const data = await res.json();
             allPatients = data.patients;
             $('#patient-total').textContent = `${allPatients.length} patients`;
