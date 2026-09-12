@@ -69,8 +69,9 @@
 
     // ── Patient Classification ──
     function classifyPatient(p) {
-        if (p.death === 1 || p.l6 === 1) return 'critical';
+        if (p.l6 === 1) return 'critical';
         if (p.l12 === 1 || p.l24 === 1) return 'at-risk';
+        if (p.death === 1) return 'critical';
         return 'stable';
     }
 
