@@ -243,9 +243,9 @@
         Object.entries(horizons).forEach(([h, label]) => {
             const card = $(`#risk-card-${h}`);
 
-            // If label = 1, the model predicted deterioration
+            // If label = 1 or patient is deceased, show high risk
             let riskPct;
-            if (label === 1) {
+            if (label === 1 || p.death === 1) {
                 riskPct = Math.min(98, Math.max(65, Math.round(baseRisk * 100 + 20)));
             } else {
                 riskPct = Math.min(45, Math.max(2, Math.round(baseRisk * 50)));
@@ -259,7 +259,7 @@
             const offset = arcLength - (arcLength * risk);
             card.querySelector('.gauge-fill').style.strokeDashoffset = offset;
             card.querySelector('.gauge-text').textContent = riskPct;
-            card.querySelector('.risk-level-text').textContent = label === 1 ? 'DETERIORATION' : info.label;
+            card.querySelector('.risk-level-text').textContent = (label === 1 || p.death === 1) ? 'DETERIORATION' : info.label;
         });
     }
 
